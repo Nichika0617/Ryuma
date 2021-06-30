@@ -49,7 +49,7 @@ import { googleLogin } from "@/api/googleApi";
 import vueRecaptcha from "vue-recaptcha";
 export default {
   layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
-  /*layout:"sign"　ってやつは書き換えました．意味があったらすみません！！*/
+  /* layout:"sign"　ってやつは書き換えました．意味があったらすみません！！ */
   data() {
     return {
       robot: true,
