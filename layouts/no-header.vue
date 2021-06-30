@@ -1,7 +1,9 @@
 <template>
   <div>
      <nuxt />
-     <el-button type="success"><nuxt-link to ="/" class="return-button">Topへ戻る．</nuxt-link></el-button>
+     <el-button type="warning"><nuxt-link to ="/" class="return-button">Topへ戻る</nuxt-link></el-button>
+     <!--このボタン中央に置きたい 6/30-->
+
   </div>
 </template>
 
@@ -18,5 +20,6 @@ export default Vue.extend({})
     margin-right: auto;
     color: white;
     text-decoration:none;/*アンダーラインなし */
+    margin: 0 auto;
 }
 </style>

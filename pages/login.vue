@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" style="margin-top: 30px;">
     <el-card class="login-card">
       <div class="btn-wrapper">
         <el-button @click="handleGoogleLogin" type="success" style="">Login with Google</el-button>
@@ -48,7 +48,8 @@ import { getLoginInfo } from "@/api/userApi";
 import { googleLogin } from "@/api/googleApi";
 import vueRecaptcha from "vue-recaptcha";
 export default {
-  layout: "sign",
+  layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
+  /*layout:"sign"　ってやつは書き換えました．意味があったらすみません！！*/
   data() {
     return {
       robot: true,

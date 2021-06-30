@@ -17,30 +17,27 @@
     <p>メールアドレス</p>
     <el-input placeholder="メールアドレス" v-model="mail"></el-input>
 
-<br><br><br>
-    <el-button type="primary">確認コードを送信</el-button>
-<br><br><br>
+    <el-button type="primary" style="margin-top: 20px 20px 0 0; ">確認コードを送信</el-button>
+
       <el-steps :active="2">
         <el-step title="Step 1" description="情報入力"></el-step>
         <el-step title="Step 2" description="認証"></el-step>
         <el-step title="Step 3" description="登録完了！"></el-step>
     </el-steps>
-<br>
-      <p>
+      <p style="margin-top: 40px 40px 0 0;">
         確認コードを入力
       </p>
       <el-input placeholder="確認コードを入力" v-model="code" @input="checkPass"></el-input>
-<br><br><br><br>
+
 <!--確認コードが一致したら表示する-->
   <transition name="fade">
-    <div v-show="show">
+    <div v-show="show" style="margin-top: 20px 20px 0 0; ">
       <el-steps :active="3">
         <el-step title="Step 1" description="情報入力"></el-step>
         <el-step title="Step 2" description="認証"></el-step>
         <el-step title="Step 3" description="登録完了！"></el-step>
       </el-steps>
-<br><br>
-      <p style="text-align:center;">
+      <p style="text-align:center; margin-top: 20px 20px 0 0; ">
         登録完了しました！
       </p>
     </div> 
