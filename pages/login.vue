@@ -24,10 +24,10 @@
 
        
       <vue-recaptcha
-        ref="recaptcha"
-        @verify="onVerify"
-        sitekey="6Ld9VBQbAAAAADeagY_xkP-SuCqnzaeLyNdZvc0T"
-        @expired="onExpired"
+      ref="recaptcha"
+      @verify="onVerify"
+      sitekey="6LeTCmwbAAAAAPZPEOKsYYf0NaYDEzO0srckmD4-"
+      @expired="onExpired"
       ></vue-recaptcha>
       
 
