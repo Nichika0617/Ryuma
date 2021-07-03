@@ -59,7 +59,7 @@ export default {
   },
   head() {
     return {
-      title: 'ログイン',
+      title: 'パスワードの設定完了',
       script: [
         {
           src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit",

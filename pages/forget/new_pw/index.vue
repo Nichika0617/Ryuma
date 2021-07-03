@@ -21,7 +21,7 @@
               v-model="confpassword"
               show-password>
           </el-input>
-          <el-button type="success" style="margin-top: 20px;">パスワードを保存する</el-button>
+          <el-button type="success" style="margin-top: 20px;"><nuxt-link to="/forget/new_pw/success" class="save-pass">パスワードを保存する</nuxt-link></el-button>
         </div>
       </el-form>
     </el-card>
@@ -52,10 +52,19 @@ export default {
 
 <style scoped>
 
+  .new-pass-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
   .new-pass-title {
     font-size: 22px;
     text-align: center;
     font-weight: 800;
   }
 
+  .save-pass {
+    color: white;
+    text-decoration: none;
+  }
 </style>
