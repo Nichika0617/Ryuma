@@ -1,6 +1,6 @@
 <template>
   <div class="register-container" style="margin-top: 30px;">
-    
+    20
     <el-card class="register-card" style="text-align: center;">
       <div class="registration-title">新規会員登録</div>
       <div class="btn-wrapper">
