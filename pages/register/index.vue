@@ -1,11 +1,11 @@
 <template>
-  <div class="register-container" style="margin-top: 30px;">
-    20
+  <div class="register-container" style="margin-top: 50px;">
+    <!--20-->
     <el-card class="register-card" style="text-align: center;">
       <div class="registration-title">新規会員登録</div>
       <div class="btn-wrapper">
         <el-button type="success" style="margin-bottom: 20px; text-align: center;"><nuxt-link to="/register/email" class="login">メールアドレスで登録する</nuxt-link></el-button>
-        <el-button @click="handleGoogleLogin" type="success" style="">Googleで登録する</el-button>
+        <el-button @click="handleGoogleLogin" type="success" style="margin: 0px;">Googleで登録する</el-button>
       </div>
     </el-card>
   </div>
@@ -77,5 +77,6 @@ export default {
     text-align: center;
     margin-bottom: 20px;
   }
+
 
 </style>
