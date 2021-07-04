@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    25　
+  <div class="container" style="margin-top: 50px;">
+    <!--25-->
     <el-card class="new-pass-card">
       <div slot="header" class="new-pass-header">
         <div class="new-pass-title">新しいパスワードの入力</div>
@@ -29,6 +29,7 @@
 </template>
 <script>
 export default {
+  layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
   data () {
     return {
       password: '',

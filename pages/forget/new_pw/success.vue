@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    30
+  <div class="container" style="margin-top: 50px;">
+    <!--30-->
     <el-card class="pass-accept-card">
       <div>
         パスワードの設定が完了しました。<br>
@@ -12,6 +12,7 @@
 </template>
 <script>
 export default {
+  layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
   data () {
     return {
       
