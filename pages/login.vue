@@ -9,14 +9,15 @@
         <div style="margin-bottom: 20px;">
           <el-input
             placeholder="メールアドレス"
-            v-model="mail_address"
+            v-model="loginForm.mail_address"
             clearable>
           </el-input>
         </div>
+        
         <div style="margin-bottom: 40px;">
           <el-input
             placeholder="パスワード"
-            v-model="password"
+            v-model="loginForm.password"
             show-password>
           </el-input>
         </div>
@@ -32,7 +33,7 @@
       
 
       <div class="btn-wrapper" style="margin-top: 20px;">
-        <el-button type="success">ログイン</el-button>
+        <el-button type="success" @click="request">ログイン</el-button>
 
       <nuxt-link to="/forget/new_pw">パスワードを忘れました</nuxt-link>
       </div>
@@ -53,8 +54,10 @@ export default {
   data() {
     return {
       robot: true,
-      mail_address: '',
-      password: '',
+      loginForm:{
+        mail_address: '',
+        password: '',
+      }
     };
   },
   head() {
@@ -70,12 +73,18 @@ export default {
     };
   },
   methods: {
+    request(){
+/*      getLoginInfo(loginForm).then(())
+         axiosの使い方を調べる 
+
+      }*/
+    }, 
     submitLogin() {
       if (!this.user.robot) {
         this.$refs["userForm"].validate((valid) => {
           if (valid) {
             login(this.user)
-              .then((response) => {
+              .then((response) => {/*成功した場合*/
                 if (response.data.success) {
                   //tokenをcookieに入れる
                   cookie.set("ryus_token", response.data.data.token, {
@@ -94,7 +103,7 @@ export default {
                   });
                 }
               })
-              .catch((error) => {
+              .catch((error) => {/**エラーをキャッチした場合*/
                 this.$message({
                   type: "error",
                   message: error.data.message,

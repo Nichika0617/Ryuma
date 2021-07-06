@@ -23,6 +23,7 @@
 </template>
 <script>
 export default {
+  layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
   data () {
     return {
       registered_mail_address: '',
