@@ -35,7 +35,7 @@
       <div class="btn-wrapper" style="margin-top: 20px;">
         <el-button type="success" @click="request">ログイン</el-button>
 
-      <nuxt-link to="/forget/new_pw">パスワードを忘れました</nuxt-link>
+      <nuxt-link to="/forget">パスワードを忘れました</nuxt-link>
       </div>
 
     </el-card>

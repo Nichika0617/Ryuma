@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    21,24
+  <div class="container" style="margin-top: 50px;">
+   <!-- 21,24-->
     <el-card class="forgot-pass-card" v-if="show">
       <div slot="header" class="pass-missd-header">
         <div class="pass-missed-title">パスワードをお忘れの方</div>
