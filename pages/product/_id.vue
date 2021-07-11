@@ -13,7 +13,7 @@
         </el-carousel-item>
       </el-carousel>
         <div style="padding: 14px;" class="price-text">
-        <p>¥値段 </p>
+        <p>¥値段</p>
         <el-button type="danger">購入画面へ</el-button>
         </div>
     </el-card>
@@ -27,8 +27,8 @@
              <el-avatar src="https://アイコンのリンク.png"></el-avatar>
              -->
              
-             <el-avatar icon="el-icon-user-solid"></el-avatar>
-              <!--ないならばこっちを表示-->
+            <el-avatar icon="el-icon-user-solid"></el-avatar>
+            <!--ないならばこっちを表示-->
           </td>
         </tr>
         <tr>
@@ -73,7 +73,6 @@
       コメント {{count}}
        <el-button type="info" class="send-button" @click="send(comment)">送信する</el-button>
     </el-card>
-    
   </div>
 </template>
 
@@ -179,4 +178,8 @@ table td{
   text-align: center;
 }
 
+.send-button{
+  display: block;
+  margin: 0 0 0 auto;
+  }
 </style>
