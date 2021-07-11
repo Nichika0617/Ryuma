@@ -1,11 +1,12 @@
 <template>
   <div class="container" style="margin-top: 50px;">
     <!--25
-    forget/new_pw はメールないリンクより．-->
+    forget/new_pw へのリンクはメールに貼ってあり，そこからのみしか繋げない．．-->
     <el-card class="new-pass-card">
       <div slot="header" class="new-pass-header">
         <div class="new-pass-title">新しいパスワードの入力</div>
       </div>
+
       <el-form :model="newpassForm">
         <div>新しいパスワード</div>
         <div style="margin-bottom: 20px;">
@@ -15,6 +16,7 @@
               show-password>
           </el-input>
         </div>
+
         <div>新しいパスワードの確認</div>
         <div style="margin-bottom: 40px;">
           <el-input
@@ -24,10 +26,13 @@
           </el-input>
           <el-button type="success" style="margin-top: 20px;"><nuxt-link to="/forget/new_pw/success" class="save-pass">パスワードを保存する</nuxt-link></el-button>
         </div>
+
       </el-form>
     </el-card>
   </div>
+
 </template>
+
 <script>
 export default {
   layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
