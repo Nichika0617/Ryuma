@@ -7,7 +7,7 @@
         <el-button type="primary"><nuxt-link to="/register" class="login">サインアップ</nuxt-link></el-button>
       </div>
     </header>
-    
+      
     <nuxt />
     <footer>
       <ul class="footer-menu">
