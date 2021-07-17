@@ -17,12 +17,15 @@
     </el-dropdown>
   <el-row>
     <el-col :span="4" v-for="(image, index) in images" :key="index">
+      <router-link :to="{ path: `/product/${index}`}">
+      <!--indexを使って，それぞれの商品idのページへ飛ぶ-->
       <el-card :body-style="{ padding: '10px' }" shadow="hover" class="card-style">
         <img :src="image" class="product-image">
         <div style="padding: 14px;">
           <span>{{ product }}</span>
         </div>
       </el-card>
+      </router-link>
     </el-col>
   </el-row>
 
@@ -69,7 +72,7 @@ export default {
         showClose: true,
         message:'商品詳細を見るためにはログインしてください．'
       });
-    }
+    },
   },
 }
 
