@@ -12,6 +12,7 @@
             v-model="loginForm.mail_address"
             clearable>
           </el-input>
+          <p class="text-red">{{ Validation.result_mail }}</p>
         </div>
         
         <div style="margin-bottom: 40px;">
@@ -33,7 +34,7 @@
       
 
       <div class="btn-wrapper" style="margin-top: 20px;">
-        <el-button type="success" @click="request">ログイン</el-button>
+        <el-button type="success" @click="checkForm">ログイン</el-button>
 
       <nuxt-link to="/forget">パスワードを忘れました</nuxt-link>
       </div>
@@ -57,6 +58,9 @@ export default {
       loginForm:{
         mail_address: '',
         password: '',
+      },
+      Validation:{
+        result_mail: "",
       }
     };
   },
@@ -145,25 +149,52 @@ export default {
         return null;
       }
     },
+    
     onVerify(response) {
       if (response) {
         this.robot = false;
       }
     },
+    
     onExpired() {
       this.robot = true;
     },
+    
     fetchData() {
       let userStr = cookie.get("ryus_user");
       if (userStr) {
         this.loginInfo = JSON.parse(userStr);
       }
     },
+    
     handleLogout() {
       cookie.remove("ryus_token");
       cookie.remove("ryus_user");
       window.location.href = "/";
     },
+
+    checkForm() {
+     var mailBool = false
+     if (!this.loginForm.mail_address) {//空ならば
+       this.Validation.result_mail="メールアドレスを入力してください"
+     }
+     else if (!this.checkString(this.loginForm.mail_address)){
+       //空ではないが，　checkString関数でthis.mailをバリデーションしてfalseなら
+       this.Validation.result_mail="正しいメールアドレスの形式で入力してください"
+     } else {//正しく入力されたなら，
+       mailBool = true
+     }
+
+     if(mailBool === true){
+       this.Validation.result_mail="送信に成功しました！"
+       console.log(this.loginForm.mail_address);
+       this.loginForm.mail_address = "";
+     }
+   },
+   checkString (mail){
+     var regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+     return regex.test(mail);
+   }
   },
   components: { vueRecaptcha },
 };
@@ -181,6 +212,11 @@ export default {
     text-align: center;
     margin-bottom: 20px;
     
+  }
+
+  .text-red{
+    color: red;
+    font-size: 12px;
   }
     
   
