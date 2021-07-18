@@ -1,6 +1,8 @@
 <template>
   <div class="container" style="margin-top: 50px;">
-    <!--3,商品詳細ページ-->  
+    <!--3,商品詳細ページ
+    http://localhost:3000/product
+    -->  
     
     <el-card :body-style="{ padding: '0px' }" class="product-card">
     
