@@ -2,24 +2,115 @@
   <div>
     <header>
       Ryuma!
-      <div class="header-btn">
-        <el-button type="primary"><nuxt-link to="/login" class="login">　ログイン　</nuxt-link></el-button>
-        <el-button type="primary"><nuxt-link to="/register" class="login">サインアップ</nuxt-link></el-button>
+      <el-cascader
+        placeholder="カテゴリで検索"
+        v-model="categoryIds"
+        :options="options"
+        @change="handleChange"
+        :props="optionProps"
+      ></el-cascader>
+      <div
+        class="header-btn"
+        v-if="!isLogin"
+      >
+        <el-button type="primary">
+          <nuxt-link
+            to="/login"
+            class="login"
+          >　ログイン　</nuxt-link>
+        </el-button>
+        <el-button type="primary">
+          <nuxt-link
+            to="/register"
+            class="login"
+          >サインアップ</nuxt-link>
+        </el-button>
+      </div>
+      <div
+        class="user"
+        v-if="isLogin"
+      >
+        <el-avatar
+          icon="el-icon-user-solid"
+          :src="loginInfo.avatar"
+        ></el-avatar>
+        <span @click="handleClick">{{loginInfo.nickname}}</span>
       </div>
     </header>
-      
-    <nuxt />
+
+    <Nuxt />
     <footer>
       <ul class="footer-menu">
-       <li>  <a href="/about_us" class="footer_link"> <span class="ryuma"> Ryuma! </span>について </a> ｜</li>
-       <li>  <a href="/privacy" class="footer_link">プライバシーと利用規約 </a> ｜</li>
-       <li>  <a href="/question" class="footer_link">お問い合わせ </a> ｜</li>
+        <li> <a
+            href="/about_us"
+            class="footer_link"
+          > <span class="ryuma"> Ryuma! </span>について </a> ｜</li>
+        <li> <a
+            href="/privacy"
+            class="footer_link"
+          >プライバシーと利用規約 </a> ｜</li>
+        <li> <a
+            href="/question"
+            class="footer_link"
+          >お問い合わせ </a> ｜</li>
       </ul>
-      <nuxt-link to="/" class="return-top ryuma"> Ryuma! </nuxt-link> 
-      <p>© SUNS</p>
+      <nuxt-link
+        to="/"
+        class="return-top ryuma"
+      > Ryuma! </nuxt-link>
     </footer>
   </div>
 </template>
+<script>
+import { getCategories } from "@/api/category";
+import cookie from "js-cookie";
+export default {
+  data() {
+    return {
+      isLogin: false,
+      categoryIds: [],
+      loginInfo: "",
+      options: [],
+      optionProps: {
+        value: "id",
+        label: "name",
+        expandTrigger: "hover",
+      },
+    };
+  },
+  created() {
+    this.fetchCategories();
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      let userStr = cookie.get("ryus_user");
+      if (userStr) {
+        this.isLogin = true;
+        this.loginInfo = JSON.parse(userStr);
+      }
+    },
+    fetchCategories() {
+      getCategories().then((res) => {
+        this.options = res.data.categories;
+      });
+    },
+    handleChange() {
+      if (this.categoryIds.length > 0) {
+        window.location.href="/category/"+this.categoryIds[this.categoryIds.length - 1];
+      }
+    },
+    handleClick() {
+      window.location.href = "/user/private";
+    },
+    // handleLogout() {
+    //   cookie.remove("ryus_token");
+    //   cookie.remove("ryus_user");
+    //   window.location.href = "/";
+    // },
+  },
+};
+</script>
 
 <style scoped>
 footer {
@@ -29,7 +120,8 @@ footer {
   /*height: 100px;*/
   /*position: absolute;*/
   width: 100%;
-  bottom: 0
+  bottom: 0;
+  height: 100px;
 }
 
 ul.footer-menu li {
@@ -37,47 +129,49 @@ ul.footer-menu li {
 }
 
 header {
-  background-color:rgb(199, 243, 243);
-  color:green;
+  background-color: rgb(199, 243, 243);
+  color: green;
   text-align: left;
-  
+
   font-size: 50px;
-  
-  font-family: 'Caveat', cursive;
+
+  font-family: "Caveat", cursive;
 }
 
-.about_ryuma{
+.about_ryuma {
   color: aqua;
   font-size: 10px;
-  text-align:left;
+  text-align: left;
 }
 
-.terms{
+.terms {
   color: aqua;
   font-size: 10px;
   text-align: left;
   margin-right: 400px;
 }
 
-.footer_link{
-  color:turquoise;
+.footer_link {
+  color: turquoise;
 }
 
-.ryuma{
- font-family: 'Caveat', cursive; 
+.ryuma {
+  font-family: "Caveat", cursive;
 }
 
-
-.login{
+.login {
   color: white;
-  text-decoration:none;/*アンダーラインなし */
+  text-decoration: none; /*アンダーラインなし */
 }
 
-.header-btn{
+.header-btn {
+  float: right;
+}
+.user {
   float: right;
 }
 
-.return-top{
+.return-top {
   color: chartreuse;
   text-decoration: none;
   font-size: 25px;

@@ -26,9 +26,9 @@ service.interceptors.request.use(
 service.interceptors.response.use(
 
     response => {
-        const res = response
-        if(res.status !==200){
-            if (res.status===401){
+        const res = response.data;
+        if(res.code !==200){
+            if (res.code===401){
                 Message({
                     message: 'ログインしてください。',
                     type: 'error',
@@ -47,7 +47,7 @@ service.interceptors.response.use(
             message: error.message,
             type: 'error',
             duration: 5 * 1000
-          })
+        })
         return Promise.reject(error)
     }
 )
