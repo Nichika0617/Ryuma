@@ -1,59 +1,111 @@
 <template>
-  <div class="container">
-    <p>メールアドレスで登録する．</p>
-    <el-steps :active="1">
-      <el-step title="Step 1" description="情報入力"></el-step>
-      <el-step title="Step 2" description="認証"></el-step>
-      <el-step title="Step 3" description="登録完了！"></el-step>
-    </el-steps> 
-    
-    <p>ニックネーム</p>
-    
-    <el-input placeholder="ユーザー名を入力" v-model="name"></el-input>
-    
-    <p>パスワード</p>
-    <el-input placeholder="パスワードを入力してください" v-model="password" show-password></el-input>
-    
-    <p>メールアドレス</p>
-    <el-input placeholder="メールアドレス" v-model="mail"></el-input>
+  <div class="container" style="margin-top: 30px; margin-bottom:30px;">
+    <el-card class="regist-card">
+    <h3 style="text-align:center;">メールアドレスで登録する</h3>
 
-    <el-button type="primary" style="margin-top: 20px 20px 0 0; ">確認コードを送信</el-button>
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+    
+    <el-form-item label="ニックネーム" prop="name">
+        <el-input v-model="ruleForm.name"></el-input>      
+    </el-form-item>
 
-      <el-steps :active="2">
-        <el-step title="Step 1" description="情報入力"></el-step>
-        <el-step title="Step 2" description="認証"></el-step>
-        <el-step title="Step 3" description="登録完了！"></el-step>
-    </el-steps>
-      <p style="margin-top: 40px 40px 0 0;">
-        確認コードを入力
-      </p>
-      <el-input placeholder="確認コードを入力" v-model="code" @input="checkPass"></el-input>
+    <el-form-item label="パスワード" prop="password">
+      <el-input type="password" v-model="ruleForm.password" auto-complete="off" show-password></el-input>
+    </el-form-item>
+  
+    <el-form-item label="パスワード確認" prop="checkPass">
+      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+    </el-form-item>
+  
 
-<!--確認コードが一致したら表示する-->
-  <transition name="fade">
-    <div v-show="show" style="margin-top: 20px 20px 0 0; ">
-      <el-steps :active="3">
-        <el-step title="Step 1" description="情報入力"></el-step>
-        <el-step title="Step 2" description="認証"></el-step>
-        <el-step title="Step 3" description="登録完了！"></el-step>
-      </el-steps>
-      <p style="text-align:center; margin-top: 20px 20px 0 0; ">
-        登録完了しました！
-      </p>
-    </div> 
-  </transition>
-  </div>
+    <el-form-item label="メールアドレス" prop="mail">
+    <el-input v-model="ruleForm.mail">
+      <el-button slot="append" type="primary" @click="sendCode()">確認コードを送信</el-button>
+    </el-input>
+    </el-form-item>
+    
+    <el-form-item label="確認コードを入力" prop="code"> 
+      <el-input v-model="ruleForm.code"></el-input>
+    </el-form-item>
+    
+  <el-form-item>
+    <el-button type="primary" @click="submitForm('ruleForm')">登録</el-button>
+    <el-button @click="resetForm('ruleForm')">リセット</el-button>
+  </el-form-item>
+
+  </el-form>
+</el-card>
+  
+</div>
+  
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      name:'',
-      password:'',
-      mail:'',
-      code:''
-    }
+  layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
+   data() {
+     var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('パスワードを入力してください'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('もう一度パスワードを入力してください'));
+        } else if (value !== this.ruleForm.password) {
+          callback(new Error('パスワードが一致しません．もう一度入力してください．'));
+        } else {
+          callback();
+        }
+      };
+      var mail_validate = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('メールアドレスを入力してください'));
+        } else if (value !== this.ruleForm.password) {
+          callback(new Error('パスワードが一致しません．もう一度入力してください．'));
+        } else {
+          callback();
+        }
+      };
+
+      return {
+        register: {
+          name: '',
+          password: '',
+          checkPass: '',
+          mail:'',
+          code:''
+          },
+    rules: {
+      name: [
+        { required: true, message: 'ニックネームを入力してください', trigger: 'blur' },
+        { min: 2, max: 10, message: 'ニックネームは2~10文字にしてください', trigger: 'blur' }
+      ],
+      password: [
+        { required: true, message: 'パスワードを入力してください', trigger: 'blur'},
+        { min: 7, max: 30,message: 'パスワードは7~30文字にしてください', trigger: 'blur' },
+        { validator: validatePass, trigger: 'blur' }
+        // フォーカス(選択)を失ったとき blur
+      ],
+      checkPass: [
+        { required: true, message: 'もう一度パスワードを入力してください', trigger: 'blur'},
+        { validator: validatePass2, trigger: 'blur' }
+      ],
+      mail: [
+        { required: true, message: 'メールアドレスを入力してください', trigger: 'blur'},
+        { validator: mail_validate, trigger: 'blur' }
+      ],
+      code:[
+        { required: true, message: '確認コードを入力してください', trigger: 'blur'},
+        { type:'number', message: '正しいコードを入力してください',trigger: 'blur'}
+      ]
+      }
+    };
   },
   head(){
     return {
@@ -61,10 +113,24 @@ export default {
       }
   },
   methods: {
-    checkPass: function() {
-      this.show = this.code === "1234" /*とりあえず1234てテストしてます，後日正しく改善*/
-    }
-  },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('登録が完了しました．');
+        } else {
+          console.log('登録に失敗しました．入力を確認してください．');
+          return false;
+        }
+      });
+    },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      
+      sendCode(){
+        // ここにメールを送るコード
+      }
+    },
   created() {
     
   },
@@ -72,11 +138,12 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  will-change: opacity;
-  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
+  .regist-card {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+.br-label {
+  white-space: pre-line;
 }
 </style>
