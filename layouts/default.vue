@@ -38,7 +38,7 @@
       </div>
     </header>
 
-    <Nuxt />
+    <nuxt keep-alive />
     <footer>
       <ul class="footer-menu">
         <li> <a
