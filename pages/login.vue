@@ -186,9 +186,9 @@ export default {
      }
 
      if(mailBool === true){
-       this.Validation.result_mail="送信に成功しました！"
+       this.Validation.result_mail="";
        console.log(this.loginForm.mail_address);
-       this.loginForm.mail_address = "";
+      //  this.loginForm.mail_address = "";
      }
    },
    checkString (mail){
