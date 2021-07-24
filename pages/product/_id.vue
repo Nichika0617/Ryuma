@@ -17,10 +17,10 @@
       >
         <!--arrow="always"　で常に左右矢印表示できる．-->
         <el-carousel-item
-          v-for="(item,index) in product.images"
+          v-for="item in product.images"
           :key="item.id"
         >
-          <img :src="item.imageUrl" class="img"></img>
+          <img :src="item.imageUrl" class="img">
         </el-carousel-item>
       </el-carousel>
       <div
@@ -37,18 +37,17 @@
       <table>
         <tr>
           <th>出品者</th>
-          <td>アカウント名
-            <!--画像があるのならばそのリンクを
-             <el-avatar src="https://アイコンのリンク.png"></el-avatar>
-             -->
-
-            <el-avatar icon="el-icon-user-solid"></el-avatar>
-            <!--ないならばこっちを表示-->
+          <td>
+            <a :href="'/user/'+product.memberId">{{product.memberNickname}}</a>
+            <el-avatar 
+            icon="el-icon-user-solid"
+            :src="product.memberAvatar"
+        ></el-avatar>
           </td>
         </tr>
         <tr>
           <th>カテゴリー</th>
-          <td>シャツ</td>
+          <td>{{product.categoryName}}</td>
         </tr>
         <tr>
           <th>ブランド</th>
@@ -57,6 +56,10 @@
         <tr>
           <th>商品の状態</th>
           <td>{{product.status}}</td>
+        </tr>
+        <tr>
+          <th>商品の紹介</th>
+          <td>{{product.introduction}}</td>
         </tr>
       </table>
     </div>
@@ -143,6 +146,10 @@ export default {
           console.log(err);
         });
     },
+    handleClickProduct(memberId) {
+      console.log(memberId);
+      window.location.href="/user/"+memberId;
+    }
   },
   created() {
     this.fetchData();
@@ -157,6 +164,7 @@ export default {
 }
 .product-name {
   text-align: center;
+  font-weight: bold;
 }
 
 .carousel {
