@@ -3,29 +3,29 @@
     <el-card class="regist-card">
     <h3 style="text-align:center;">メールアドレスで登録する</h3>
 
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+  <el-form :model="register" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
     
     <el-form-item label="ニックネーム" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>      
+        <el-input v-model="register.nickname"></el-input>      
     </el-form-item>
 
     <el-form-item label="パスワード" prop="password">
-      <el-input type="password" v-model="ruleForm.password" auto-complete="off" show-password></el-input>
+      <el-input type="password" v-model="register.password" auto-complete="off" show-password></el-input>
     </el-form-item>
   
     <el-form-item label="パスワード確認" prop="checkPass">
-      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+      <el-input type="password" v-model="register.repeatPassword" autocomplete="off"></el-input>
     </el-form-item>
   
 
     <el-form-item label="メールアドレス" prop="mail">
-    <el-input v-model="ruleForm.mail">
+    <el-input v-model="register.email">
       <el-button slot="append" type="primary" @click="sendCode()">確認コードを送信</el-button>
     </el-input>
     </el-form-item>
     
     <el-form-item label="確認コードを入力" prop="code"> 
-      <el-input v-model="ruleForm.code"></el-input>
+      <el-input v-model="register.code"></el-input>
     </el-form-item>
     
   <el-form-item>
@@ -75,11 +75,11 @@ export default {
 
       return {
         register: {
-          name: '',
+          code:'',
+          email:'',
+          nickname: '',
           password: '',
-          checkPass: '',
-          mail:'',
-          code:''
+          repeatPassword: ''
           },
     rules: {
       name: [
