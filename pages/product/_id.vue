@@ -1,4 +1,5 @@
 <template>
+<!-- 商品詳細 -->
   <div
     class="container"
     style="margin-top: 50px;"
@@ -88,7 +89,7 @@
 
       <div class="chat-explain">
         <p>相手のことを考え，丁寧なコメントを心がけましょう．</p>
-        <p>このコメントは公に公開されます．</p>
+        <p>このコメントは公開されます．</p>
       </div>
 
       <div class="send-message">
