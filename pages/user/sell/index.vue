@@ -14,21 +14,21 @@
           </el-dialog>
         </el-form-item>
 
-        <el-form-item label="商品名" prop="productname">
+        <el-form-item label="商品名" prop="name">
           <el-input 
             placeholder="40文字まで"
             v-model="SellForm.name">
           </el-input>
         </el-form-item>
         
-        <el-form-item label="商品説明" prop="productdescribe">
+        <el-form-item label="商品説明" prop="introduction">
           <el-input 
             placeholder="1000文字まで"
-            v-model="SellForm.name">
+            v-model="SellForm.introduction">
           </el-input>
         </el-form-item>
 
-        <el-form-item label="カテゴリー" prop="category">
+        <el-form-item label="カテゴリー" prop="categoryIds">
           <el-cascader
             placeholder="選択してください"
             v-model="categoryIds"
@@ -41,7 +41,7 @@
           <el-cascader
             placeholder="選択してください"
             v-model="SellForm.status"
-            :options="status_options"
+            :options="status_option"
             :props="status_optionProps">
           </el-cascader>
         </el-form-item>
@@ -96,6 +96,9 @@ export default {
         price: [
           { required: true, message: '値段を入力してください', trigger: 'blur'},
         ],
+        // categoryIds: [
+        //   { required: true, message: 'カテゴリーを選択してください', trigger: 'click'},
+        // ],
       },
 
       categoryIds: [],
@@ -141,7 +144,7 @@ export default {
       ],
 
       status_optionProps: {
-        value: "id",
+        name: "id",
         label: "name",
         expandTrigger: "hover",
       },
@@ -163,8 +166,8 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('登録が完了しました．');
-          this.putup(this.SellForm)
+          //alert('登録が完了しました．');
+          this.postProduct(this.SellForm)
       //     .then(res => {
       //       window.location.href="/"
       //     }).catch(err => {
@@ -183,7 +186,7 @@ export default {
 
         },
 
-        postData(formData){
+        postProduct(formData){
           console.log("以下を送信します\n" + JSON.stringify(formData));
           putup(formData).then(res =>{ //このputupはimportしたAPI dataではない．
             //成功した場合，
