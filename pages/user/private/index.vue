@@ -93,8 +93,8 @@ export default {
   .mypage-card {
     position: relative;
     left: 100%;
-    width: 400px;
-    transform: translateX(-100%);
+    width: 600px;
+    transform: translateX(-140%);
   }
   .trim-image-to-circle {
     width:  100px;       /* ※縦横を同値に */
