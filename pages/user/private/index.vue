@@ -4,8 +4,14 @@
     <el-card class="mypage-card">
       <div slot="header" class="clearfix">
         <div class="name-sell">
-          <img class="trim-image-to-circle" src="https://2.bp.blogspot.com/-A8F_Yx7DQzc/W5H_uJBs5HI/AAAAAAABOvI/eSIYM1saVRw4op64Mee3t1GTO0MrLM9oACLcBGAs/s800/cat_boss_gang.png">
-          <br>{{ username }}
+          <el-avatar
+            icon="el-icon-user-solid"
+            :src="loginInfo.avatar"
+            style="margin-top:10px;"
+        ></el-avatar>
+          <!-- <img class="trim-image-to-circle" src="https://2.bp.blogspot.com/-A8F_Yx7DQzc/W5H_uJBs5HI/AAAAAAABOvI/eSIYM1saVRw4op64Mee3t1GTO0MrLM9oACLcBGAs/s800/cat_boss_gang.png"> -->
+          <br>
+          {{ loginInfo.nickname }}
           <br>出品数  {{ + num_sell }}
         </div>
       </div>
@@ -43,10 +49,11 @@
   </div>
 </template>
 <script>
+import cookie from "js-cookie";
 export default {
   data () {
     return {
-      username: '琉大猫',
+      loginInfo: "",
       num_sell: 10,
       profile:{
         familyname: '',
@@ -68,10 +75,16 @@ export default {
       }
   },
   methods: {
-    
+    fetchData() {
+      let userStr = cookie.get("ryus_user");
+      if (userStr) {
+        this.isLogin = true;
+        this.loginInfo = JSON.parse(userStr);
+      }
+    },
   },
   created() {
-    
+    this.fetchData();
   },
 }
 </script>
