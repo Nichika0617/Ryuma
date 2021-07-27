@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      Ryuma!
+      <span class="header-font">Ryuma!</span>
       <el-cascader
         placeholder="カテゴリで検索"
         v-model="categoryIds"
@@ -33,8 +33,9 @@
         <el-avatar
           icon="el-icon-user-solid"
           :src="loginInfo.avatar"
+          style="margin-top:10px;"
         ></el-avatar>
-        <span @click="handleClick">{{loginInfo.nickname}}</span>
+        <span @click="handleClick" style="margin-right:10px;">{{ loginInfo.nickname }}</span>
         <el-button type="danger" @click="handleLogout">ログアウト</el-button>
       </div>
     </header>
@@ -131,15 +132,16 @@ ul.footer-menu li {
 }
 
 header {
-  background-color: rgb(199, 243, 243);
-  color: green;
+  background-color: rgb(199, 243, 243);  
   text-align: left;
 
-  font-size: 50px;
-
-  font-family: "Caveat", cursive;
 }
 
+.header-font{
+  color: green;
+  font-size: 50px;
+  font-family: "Caveat", cursive;
+}
 .about_ryuma {
   color: aqua;
   font-size: 10px;
