@@ -28,13 +28,27 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="カテゴリー" prop="categoryIds">
+        <el-form-item label="取引方法" prop="deliveryMethod">
+          <el-input 
+            placeholder="取引方法を入力"
+            v-model="SellForm.deliveryMethod">
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="カテゴリー" prop="categoryId">
           <el-cascader
             placeholder="選択してください"
-            v-model="categoryIds"
+            v-model="SellForm.categoryId"
             :options="category_options"
             :props="optionProps">
           </el-cascader>
+        </el-form-item>
+
+        <el-form-item label="ブランド" prop="manufacturer">
+          <el-input
+            placeholder="ブランドを入力"
+            v-model="SellForm.manufacturer">
+          </el-input>
         </el-form-item>
         
         <el-form-item label="商品の状態" prop="status">
@@ -73,7 +87,7 @@ export default {
       disabled: false,
 
       SellForm: {
-        categoryId: this.categoryIds,
+        categoryId: '',
         deliveryMethod: '',
         id: '',
         images:[],
@@ -101,7 +115,6 @@ export default {
         // ],
       },
 
-      categoryIds: [],
       loginInfo: "",
       category_options: [],
       optionProps: {
@@ -113,38 +126,38 @@ export default {
       status_option: [
       {
         "id": 1,
+        "name_code":"new",
         "name": "新品未使用",
         "children": null,
       },
       {
         "id": 2,
+        "name_code":"almost_new",
         "name": "未使用に近い",
         "children": null,
       },
       {
         "id": 3,
+        "name_code":"almost_no_scratch",
         "name": "目立った傷や汚れなし",
         "children": null,
       },
       {
         "id": 4,
+        "name_code":"scratch",
         "name": "やや傷や汚れあり",
         "children": null,
       },
       {
         "id": 5,
-        "name": "傷や汚れあり",
-        "children": null,
-      },
-      {
-        "id": 6,
+        "name_code":"bad_state",
         "name": "全体的に状態が悪い",
         "children": null,
       }
       ],
 
       status_optionProps: {
-        name: "id",
+        value: "name_code",
         label: "name",
         expandTrigger: "hover",
       },
@@ -157,7 +170,7 @@ export default {
       }
   },
   methods: {
-    
+
     fetchCategories() {
       getCategories().then((res) => {
         this.category_options = res.data.categories;
@@ -167,7 +180,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //alert('登録が完了しました．');
-          this.postProduct(this.SellForm)
+          this.SellForm.categoryId = this.SellForm.categoryId["1"];
+          this.SellForm.status = this.SellForm.status["0"];
+          this.postProduct(this.SellForm);
+          console.log(this.SellForm);
+          console.log(this.SellForm.categoryId["1"]);
+
       //     .then(res => {
       //       window.location.href="/"
       //     }).catch(err => {
@@ -183,7 +201,6 @@ export default {
     },
         resetForm(formName) {
           this.$refs[formName].resetFields();
-
         },
 
         postProduct(formData){
