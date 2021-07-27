@@ -39,9 +39,6 @@
       建物名
       <el-input placeholder="例) 流猫ビル101" v-model="profile.block" class="input-form"></el-input>
       <el-button class="custom-icon input-form" type="success" >変更する</el-button>
-      
-      
-
     </el-card>
   </div>
 </template>

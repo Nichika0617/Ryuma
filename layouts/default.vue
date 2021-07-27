@@ -35,6 +35,7 @@
           :src="loginInfo.avatar"
         ></el-avatar>
         <span @click="handleClick">{{loginInfo.nickname}}</span>
+        <el-button type="danger" @click="handleLogout">ログアウト</el-button>
       </div>
     </header>
 
@@ -63,6 +64,7 @@
 </template>
 <script>
 import { getCategories } from "@/api/category";
+import { getIndexData } from "@/api/product";
 import cookie from "js-cookie";
 export default {
   data() {
@@ -103,11 +105,11 @@ export default {
     handleClick() {
       window.location.href = "/user/private";
     },
-    // handleLogout() {
-    //   cookie.remove("ryus_token");
-    //   cookie.remove("ryus_user");
-    //   window.location.href = "/";
-    // },
+    handleLogout() {
+      cookie.remove("ryus_token");
+      cookie.remove("ryus_user");
+      window.location.href = "/";
+    },
   },
 };
 </script>

@@ -12,6 +12,7 @@
       :limit="maxCount"
       :on-exceed="handleExceed"
       :show-file-list="showFile"
+      accept=".jpg, .png"
     >
       <i class="el-icon-plus"></i>
     </el-upload>
