@@ -12,40 +12,44 @@
       :limit="maxCount"
       :on-exceed="handleExceed"
       :show-file-list="showFile"
-      accept=".jpg, .png"
+      accept=".jpg,.png"
     >
       <i class="el-icon-plus"></i>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="dialogImageUrl" alt />
+      <img
+        width="100%"
+        :src="dialogImageUrl"
+        alt
+      />
     </el-dialog>
   </div>
 </template>
 <script>
 import { policy } from "@/api/uploadApi";
-import { getUUID } from '@/utils'
+import { getUUID } from "@/utils";
 export default {
   name: "multiUpload",
   props: {
     //图片属性数组
     value: Array,
-    //画像の最大枚数
+    //最大上传图片数量
     maxCount: {
       type: Number,
-      default: 5
+      default: 8,
     },
-    listType:{
+    listType: {
       type: String,
-      default: "picture-card"
+      default: "picture-card",
     },
-    showFile:{
+    showFile: {
       type: Boolean,
-      default: true
-    }
-
+      default: true,
+    },
   },
   data() {
     return {
+      policyTimer: null,
       dataObj: {
         policy: "",
         signature: "",
@@ -53,10 +57,10 @@ export default {
         ossaccessKeyId: "",
         dir: "",
         host: "",
-        uuid: ""
+        uuid: "",
       },
       dialogVisible: false,
-      dialogImageUrl: null
+      dialogImageUrl: null,
     };
   },
   computed: {
@@ -65,12 +69,21 @@ export default {
       for (let i = 0; i < this.value.length; i++) {
         fileList.push({ url: this.value[i] });
       }
-
       return fileList;
-    }
+    },
   },
-  mounted() {},
+  mounted() {
+    this.fetchData();
+    this.setTimer();
+  },
+  beforeDestroy() {
+    console.log("beforedestroy");
+    clearInterval(this.policyTimer);
+  },
   methods: {
+    setTimer(){
+      this.policyTimer = setInterval(this.fetchData,60*1000);
+    },
     emitInput(fileList) {
       let value = [];
       for (let i = 0; i < fileList.length; i++) {
@@ -86,44 +99,51 @@ export default {
       this.dialogImageUrl = file.url;
     },
     beforeUpload(file) {
-      let _self = this;
-      return new Promise((resolve, reject) => {
-        policy()
-          .then(response => {
-            console.log("${filename}");
-            _self.dataObj.policy = response.data.policy;
-            _self.dataObj.signature = response.data.signature;
-            _self.dataObj.ossaccessKeyId = response.data.accessid;
-            _self.dataObj.key = response.data.dir +getUUID()+"_${filename}";
-            _self.dataObj.dir = response.data.dir;
-            _self.dataObj.host = response.data.host;
-            resolve(true);
-          })
-          .catch(err => {
-            console.log(err)
-            reject(false);
-          });
-      });
+      let fileName = file.name;
+      let uid = file.uid;
+      let pos = fileName.lastIndexOf(".");
+      let lastName = fileName.substring(pos, fileName.length);
+      if (lastName.toLowerCase() !== ".png" && lastName.toLowerCase() !== ".jpg") {
+        this.$message.error("Must be .png .jpg");
+        return false;
+      }
+      // 限制上传文件的大小
+      const isLt =
+        file.size / 1024 / 5 >= 1 && file.size / 1024 / 1024 / 3 <= 1;
+      if (!isLt) {
+        this.$message.error("ファイルは5KB以上、3MB以内でお願いします。");
+      }
+      return isLt;
+    },
+    fetchData() {
+      policy().then((response) => {
+          this.dataObj.policy = response.data.policy;
+          this.dataObj.signature = response.data.signature;
+          this.dataObj.ossaccessKeyId = response.data.accessid;
+          this.dataObj.key = response.data.dir + getUUID() + "_${filename}";
+          this.dataObj.dir = response.data.dir;
+          this.dataObj.host = response.data.host;
+        });
     },
     handleUploadSuccess(res, file) {
       this.fileList.push({
         name: file.name,
-        // url: this.dataObj.host + "/" + this.dataObj.dir + "/" + file.name； ${filename}を本当のファイルの名前に変える
-        url: this.dataObj.host + "/" + this.dataObj.key.replace("${filename}",file.name)
+        // url: this.dataObj.host + "/" + this.dataObj.dir + "/" + file.name； 替换${filename}为真正的文件名
+        url:
+          this.dataObj.host +
+          "/" +
+          this.dataObj.key.replace("${filename}", file.name),
       });
       this.emitInput(this.fileList);
     },
     handleExceed(files, fileList) {
       this.$message({
-        message: "最大" + this.maxCount + "枚です。",
+        message: "画像は最大" + this.maxCount + "枚アップロードできます。",
         type: "warning",
-        duration: 1000
+        duration: 1000,
       });
-    }
-  }
+    },
+  },
 };
 </script>
-<style>
-</style>
-
 
