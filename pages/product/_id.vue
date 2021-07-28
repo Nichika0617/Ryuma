@@ -39,11 +39,12 @@
         <tr>
           <th>出品者</th>
           <td>
-            <a :href="'/user/'+product.memberId">{{product.memberNickname}}</a>
+            <a :href="'/user/'+product.memberId" style="text-decoration: none; color:black;">{{product.memberNickname}}
             <el-avatar 
             icon="el-icon-user-solid"
             :src="product.memberAvatar"
         ></el-avatar>
+            </a>
           </td>
         </tr>
         <tr>

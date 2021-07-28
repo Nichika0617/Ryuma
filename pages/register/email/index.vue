@@ -245,7 +245,7 @@ export default {
           this.add_error = true;
           //vueを通り抜けたがエラーの場合，メール重複エラー？」　今(7/27)は非表示にしてます．44行目
           console.log("登録失敗");
-          this.resetForm("register");
+          // this.resetForm("register");
           console.log(error);
         });
     },

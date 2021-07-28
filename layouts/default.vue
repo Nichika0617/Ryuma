@@ -37,7 +37,7 @@
           :src="loginInfo.avatar"
           style="margin-top:10px;"
         ></el-avatar>
-        <span @click="handleClick" style="margin-right:10px;">{{ loginInfo.nickname }}</span>
+        <span @click="handleClick" style="margin-right:10px; cursor: pointer;">{{ loginInfo.nickname }}</span>
         <el-button type="danger" @click="handleLogout">ログアウト</el-button>
       </div>
     </header>
