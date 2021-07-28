@@ -230,8 +230,10 @@ export default {
 <style scoped>
 .mypage-card {
   margin-left: 80px;
-  
   width: 400px;
+  /* position: relative; */
+  /* left: 100%; */
+  /* transform: translateX(-140%); */
   
 }
 .trim-image-to-circle {
