@@ -23,6 +23,21 @@ export function register(data){
     })
 }
 
+export function sendCode(email){
+    return request({
+        url: "/third/email/verify",
+        method: 'POST',
+        params: {email}
+    })
+}
+
+export function postLoginInfo(data){
+    return request({
+        url: "/member/members/login",
+        method: 'POST',
+        data
+    })
+}
 export function getOpponentInfo(chatId){
     return request({
         url: '/member/members/opponentInfo',

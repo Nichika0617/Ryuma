@@ -5,23 +5,28 @@
         <el-button @click="handleGoogleLogin" type="success" style="">Login with Google</el-button>
       </div>
       
-      <el-form :model="loginForm">
+      <el-form 
+      :model="userForm"
+      :rules="rules"
+      ref="userForm">
+        <el-form-item label="メールアドレス" prop="email">
         <div style="margin-bottom: 20px;">
           <el-input
-            placeholder="メールアドレス"
-            v-model="loginForm.mail_address"
+            v-model="userForm.email"
             clearable>
           </el-input>
-          <p class="text-red">{{ Validation.result_mail }}</p>
+          
         </div>
-        
-        <div style="margin-bottom: 40px;">
+        </el-form-item>
+
+        <el-form-item label="パスワード" prop="password">
+        <div style="margin-bottom: 40px">
           <el-input
-            placeholder="パスワード"
-            v-model="loginForm.password"
+            v-model="userForm.password"
             show-password>
           </el-input>
         </div>
+        </el-form-item>
       </el-form>
 
        
@@ -34,7 +39,7 @@
       
 
       <div class="btn-wrapper" style="margin-top: 20px;">
-        <el-button type="success" @click="checkForm">ログイン</el-button>
+        <el-button type="success" @click="submitLogin('userForm')">ログイン</el-button>
 
       <nuxt-link to="/forget">パスワードを忘れました</nuxt-link>
       </div>
@@ -49,18 +54,40 @@ import cookie from "js-cookie";
 import { getLoginInfo } from "@/api/userApi";
 import { googleLogin } from "@/api/googleApi";
 import vueRecaptcha from "vue-recaptcha";
+import { postLoginInfo } from "@/api/userApi";
 export default {
   layout: "no-header", /*ヘッダーやログインボタンがここには出ないように．*/
   /* layout:"sign"　ってやつは書き換えました．意味があったらすみません！！ */
   data() {
     return {
       robot: true,
-      loginForm:{
-        mail_address: '',
+      userForm:{
+        email: '',
         password: '',
       },
-      Validation:{
-        result_mail: "",
+      // Validation:{
+      //   result_mail: "",
+      // },
+      rules:{
+        email:[
+          {
+            required: true,
+            message: "メールアドレスを入力してください",
+            trigger: "blur",
+          },
+          {
+            type: "email",
+            message: "正しいメールアドレスの形式で入力してください．",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: "パスワードを入力してください",
+            trigger: "blur",
+          },
+        ]
       }
     };
   },
@@ -77,19 +104,17 @@ export default {
     };
   },
   methods: {
-    request(){
-/*      getLoginInfo(loginForm).then(())
-         axiosの使い方を調べる 
-
-      }*/
-    }, 
     submitLogin() {
-      if (!this.user.robot) {
+      if (!this.robot) {
         this.$refs["userForm"].validate((valid) => {
           if (valid) {
-            login(this.user)
+            postLoginInfo(this.userForm)
               .then((response) => {/*成功した場合*/
                 if (response.data.success) {
+                  this.$message({
+                    message:"ログインに成功しました．",
+                    type:"success",
+                  })
                   //tokenをcookieに入れる
                   cookie.set("ryus_token", response.data.data.token, {
                     expires: 1,
@@ -110,7 +135,7 @@ export default {
               .catch((error) => {/**エラーをキャッチした場合*/
                 this.$message({
                   type: "error",
-                  message: error.data.message,
+                  message: "ログインに失敗しました" + error
                 });
               });
           }
@@ -173,28 +198,29 @@ export default {
       window.location.href = "/";
     },
 
-    checkForm() {
-     var mailBool = false
-     if (!this.loginForm.mail_address) {//空ならば
-       this.Validation.result_mail="メールアドレスを入力してください"
-     }
-     else if (!this.checkString(this.loginForm.mail_address)){
-       //空ではないが，　checkString関数でthis.mailをバリデーションしてfalseなら
-       this.Validation.result_mail="正しいメールアドレスの形式で入力してください"
-     } else {//正しく入力されたなら，
-       mailBool = true
-     }
+  //   checkForm() {
+  //    var mailBool = false
+  //    if (!this.userForm.email) {//空ならば
+  //      this.Validation.result_mail="メールアドレスを入力してください"
+  //    }
+  //    else if (!this.checkString(this.userForm.email)){
+  //      //空ではないが，　checkString関数でthis.mailをバリデーションしてfalseなら
+  //      this.Validation.result_mail="正しいメールアドレスの形式で入力してください"
+  //    } else {//正しく入力されたなら，
+  //      mailBool = true
+  //    }
 
-     if(mailBool === true){
-       this.Validation.result_mail="";
-       console.log(this.loginForm.mail_address);
-      //  this.loginForm.mail_address = "";
-     }
-   },
-   checkString (mail){
-     var regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-     return regex.test(mail);
-   }
+  //    if(mailBool === true){
+  //      this.submitLogin();
+  //      this.Validation.result_mail="";
+  //      console.log(this.userForm.email);
+  //     //  this.userForm.email = "";
+  //    }
+  //  },
+  //  checkString (mail){
+  //    var regex = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+  //    return regex.test(mail);
+  //  }
   },
   components: { vueRecaptcha },
 };
