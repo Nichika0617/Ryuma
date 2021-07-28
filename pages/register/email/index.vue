@@ -44,8 +44,11 @@
             <el-button
               slot="append"
               type="primary"
-              @click="send_RegistCode('register')"
-              >確認コードを送信</el-button
+              @click="send_RegistCode('register') ,sendButton_disable()"
+              v-bind:disabled="isSendCodeDisabled"
+              >確認コードを送信
+              <!-- registcodeを送り，30秒間ボタンをdisable=trueに．disable=falseの時だけ押せる． -->
+              </el-button
             >
           </el-input>
           <!-- <el-alert
@@ -108,7 +111,7 @@ export default {
         password: "",
         repeatPassword: "",
       },
-
+      isSendCodeDisabled: false,
       add_error: false,
 
       rules: {
@@ -258,13 +261,21 @@ export default {
             message: "入力されたメールアドレスに確認コードを送信しました．",
             type: "success",
           });
-        })
-        .catch((error) => {
+        }).catch((error) => {
           this.$message({
             message: "エラーが発生しました．" + error,
             type: "error",
           });
         });
+    },
+    sendButton_disable(){
+      this.isSendCodeDisabled = true;
+      setTimeout(this.sendButton_enable, 30*1000);
+      console.log("確認コードボタンを30秒クリック禁止に")
+    },
+    sendButton_enable(){
+      console.log("確認コードボタンが再びクリックできるようになりました．")
+      this.isSendCodeDisabled = false;
     },
     created() {
 
@@ -287,4 +298,7 @@ export default {
   border-color: #f56c6c !important;
   /* スタイルの優先順位を上げる */
 }
+
+/* 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 */
 </style>
+
