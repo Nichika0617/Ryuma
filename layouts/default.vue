@@ -1,7 +1,9 @@
 <template>
   <div>
     <header>
-      <span class="header-font">Ryuma!</span>
+      <nuxt-link to="/" style="text-decoration: none;">
+        <span class="header-font">Ryuma!</span>
+      </nuxt-link>
       <el-cascader
         placeholder="カテゴリで検索"
         v-model="categoryIds"
