@@ -5,11 +5,11 @@
     http://localhost:3000/user/private/product/trading
     -->
     <div style="margin-top:50px">
-      <span>a</span>
+      <span>購入希望1</span>
       <el-divider></el-divider>
-      <span>a</span>
+      <span>購入希望2</span>
       <el-divider></el-divider>
-      <span>a</span>
+      <span>売却中1</span>
       <el-divider></el-divider>
     </div>
   </div>
