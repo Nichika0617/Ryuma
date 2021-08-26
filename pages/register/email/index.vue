@@ -44,9 +44,12 @@
             <el-button
               slot="append"
               type="primary"
-              @click="send_RegistCode('register')"
-              >確認コードを送信</el-button
-            >
+              @click="send_RegistCode('register') ,sendButton_disable()"
+              v-bind:disabled="isSendCodeDisabled"
+              ><template v-if="this.isSendCodeDisabled === false" >確認コードを送信</template>
+              <template v-else>{{ this.counting }}秒後に再送信</template>
+              <!-- registcodeを送り，30秒間ボタンをdisable=trueに．disable=falseの時だけ押せる． -->
+              </el-button>
           </el-input>
           <!-- <el-alert
             v-if="add_error"
@@ -108,7 +111,9 @@ export default {
         password: "",
         repeatPassword: "",
       },
-
+      isSendCodeDisabled: false,
+      countDown: 30, // 30秒ボタンをdisableにするタイマー
+      counting: '' ,//countDownに上書きしてしまうと一度きりのカウントになってしまうため，これをカウントダウンには使用する
       add_error: false,
 
       rules: {
@@ -258,14 +263,37 @@ export default {
             message: "入力されたメールアドレスに確認コードを送信しました．",
             type: "success",
           });
-        })
-        .catch((error) => {
+        }).catch((error) => {
           this.$message({
             message: "エラーが発生しました．" + error,
             type: "error",
           });
         });
     },
+    sendButton_disable(){
+      this.isSendCodeDisabled = true;
+      console.log("確認コードボタンを" +  this.countDown  +"秒クリック禁止");
+      this.counting = this.countDown;
+      this.countDownTimer();
+    },
+
+    sendButton_enable(){
+      console.log("確認コード送信ボタンが再びクリックできるようになりました．")
+      this.isSendCodeDisabled = false;
+    },
+
+    countDownTimer(){
+      if(this.counting > 0){
+        console.log(this.counting);
+        setTimeout(() =>{
+          this.counting -= 1;
+          this.countDownTimer();
+          },1000) //1秒ごとに実行し，-1ずつ減らす．これで指定した秒数のカウントを行う．
+        }else{
+          //変数に指定された時間分経過したら，
+          this.sendButton_enable();
+        }
+      },
     created() {
 
     },
@@ -287,4 +315,7 @@ export default {
   border-color: #f56c6c !important;
   /* スタイルの優先順位を上げる */
 }
+
+/* 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 */
 </style>
+
