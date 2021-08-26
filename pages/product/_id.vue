@@ -29,10 +29,22 @@
         class="price-text"
       >
         <p>¥{{product.price}}</p>
-        <el-button type="danger">購入画面へ</el-button>
+        <el-button type="success" @click="dialogVisible = true">購入希望する</el-button>
       </div>
 
     </el-card>
+
+    <el-dialog
+      title=""
+      :visible.sync="dialogVisible"
+      width="30%"
+      >
+      <span>購入希望を確定してもいいですか？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">キャンセル</el-button>
+        <el-button type="success" @click="dialogVisible = false"><nuxt-link to="/product/success" class="dia">確定</nuxt-link></el-button>
+      </span>
+    </el-dialog>
 
     <div class="details">
       <table>
@@ -114,6 +126,7 @@
 
 <script>
 import { getProduct } from "@/api/product";
+
 export default {
   data() {
     return {
@@ -122,6 +135,7 @@ export default {
       comment: "",
       comments: [],
       product: {},
+      dialogVisible: false,
     };
   },
   head() {
@@ -151,7 +165,10 @@ export default {
     handleClickProduct(memberId) {
       console.log(memberId);
       window.location.href="/user/"+memberId;
-    }
+    },
+ 
+    
+
   },
   created() {
     this.fetchData();
@@ -240,5 +257,10 @@ table td {
 }
 .img{
   width:100%;
+}
+
+.dia {
+    color: white;
+    text-decoration: none;
 }
 </style>
