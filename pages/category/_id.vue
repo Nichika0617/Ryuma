@@ -1,19 +1,15 @@
 <template>
   <div class="container">
-    <div
-      v-for="item in page.records"
-      :key="item.id"
-    >
       <el-row>
         <div class="categoryName" style="margin-top:20px;">
-          <!-- <h3>{{categoryName}}</h3> -->
+          <h2>{{ category.name }}</h2>
         </div>
       </el-row>
 
       <el-row>
         <el-col
           :span="6"
-          v-for="product in item"
+          v-for="product in page.records"
           :key="product.id"
         >
           <el-card
@@ -34,7 +30,6 @@
         </el-col>
       </el-row>
     </div>
-  </div>
 </template>
 
 <script>
@@ -44,11 +39,12 @@ export default {
     return {
       categoryQuery: {
           categoryId: this.$route.params.id,
-          orderBy: 3,
+          orderBy: 4, //値段順
           page: 1,
           size: 16
       },
       page: {},
+      category: {},
     }
   },
   methods: {
@@ -57,7 +53,8 @@ export default {
         .then((res) => {
           this.page = res.data.page;
           console.log(this.page);
-          console.log("レコード"+this.page.records)
+          this.category = res.data.category
+          console.log(this.category.name)
           
         })
         .catch((err) => {
@@ -116,7 +113,8 @@ export default {
   .categoryName{
     font-size:20px;
     font-weight: bold;
-    background-color: rgb(185, 238, 203);
+    
+    background-color: rgb(255, 255, 255);
   }
 
   .row-hide{
